@@ -1,0 +1,79 @@
+<div class="sb-nav-fixed">
+  <app-navtopbar></app-navtopbar>
+  <app-navsidebar></app-navsidebar>
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_content">
+      <main>
+        <div class="col-md-2"></div>
+        <div class="col-md-8 container-fluid px-4">
+          <h1 class="mt-4">Riegos</h1>
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Riegos</li>
+          </ol>
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-table me-1"></i>
+              DataTable Example
+            </div>
+            <div class="card-body mb-3 row">
+              <div class="mb-3 row">
+                <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+                <div class="col-xs-3 col-sm-auto">
+                  <input id="table-complete-search" type="text" class="form-control" name="searchTerm"
+                    [(ngModel)]="_riegosTable.searchTerm">
+                </div>
+                <span class="col col-form-label" *ngIf="_riegosTable.loading$ | async">Loading...</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col" sortableRiegos="descripcion" (sort)="onSort($event)">Riego</th>
+                      <th>Consumo</th>
+                      <th>Horia de riego</th>
+                      <th>Eficiencia</th>
+                      <th>Diferencial de altura</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let riego of riegos$ | async">
+                      <td>
+                        <ngb-highlight [result]="riego.descripcion" [term]="_riegosTable.searchTerm"></ngb-highlight>
+                      </td>
+                      <td>{{ riego.consumo }}</td>
+                      <td>{{ riego.hora_riego }}</td>
+                      <td>{{ riego.eficiencia_max }} {{ riego.eficiencia_min }}</td>
+                      <td>{{ riego.diferencial_altura }}</td>
+                      <td>
+                        <a class="btn btn-primary" (click)="readRiegos(riego.id_riego)">
+                          <fa-icon [icon]="editIcon"></fa-icon>
+                        </a>
+                        <a class="btn btn-dark" (click)="deleteRiegos(riego.id_riego)">
+                          <fa-icon [icon]="eraserIcon"></fa-icon>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="_riegosTable.page"
+                  [pageSize]="_riegosTable.pageSize">
+                </ngb-pagination>
+
+                <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="_riegosTable.pageSize">
+                  <option [ngValue]="2">2 items per page</option>
+                  <option [ngValue]="4">4 items per page</option>
+                  <option [ngValue]="6">6 items per page</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </main>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>

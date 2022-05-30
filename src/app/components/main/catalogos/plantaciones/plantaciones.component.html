@@ -1,0 +1,75 @@
+<div class="sb-nav-fixed">
+  <app-navtopbar></app-navtopbar>
+  <app-navsidebar></app-navsidebar>
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_content">
+      <main>
+        <div class="col-md-2"></div>
+        <div class="col-md-8 container-fluid px-4">
+          <h1 class="mt-4">Plantaciones</h1>
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Plantaciones</li>
+          </ol>
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-table me-1"></i>
+              DataTable Example
+            </div>
+            <div class="card-body mb-3 row">
+              <div class="mb-3 row">
+                <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+                <div class="col-xs-3 col-sm-auto">
+                  <input id="table-complete-search" type="text" class="form-control" name="searchTerm"
+                    [(ngModel)]="_plantacionesTable.searchTerm">
+                </div>
+                <span class="col col-form-label" *ngIf="_plantacionesTable.loading$ | async">Loading...</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col" sortablePlantaciones="descripcion" (sort)="onSort($event)">Plantacion
+                        <app-sort-icon *ngIf='sortedColumn === "name"' [direction]="sortedDirection"></app-sort-icon>
+                      </th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let plantacion of plantaciones$ | async">
+                      <td>
+                        <ngb-highlight [result]="plantacion.descripcion" [term]="_plantacionesTable.searchTerm">
+                        </ngb-highlight>
+                      </td>
+                      <td>
+                        <a class="btn btn-primary" (click)="readPlantacion(plantacion.id_plantacion)">
+                          <fa-icon [icon]="editIcon"></fa-icon>
+                        </a>
+                        <a class="btn btn-dark" (click)="deletePlantacion(plantacion.id_plantacion)">
+                          <fa-icon [icon]="eraserIcon"></fa-icon>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="_plantacionesTable.page"
+                  [pageSize]="_plantacionesTable.pageSize">
+                </ngb-pagination>
+
+                <select class="form-select" style="width: auto" name="pageSize"
+                  [(ngModel)]="_plantacionesTable.pageSize">
+                  <option [ngValue]="2">2 items per page</option>
+                  <option [ngValue]="4">4 items per page</option>
+                  <option [ngValue]="6">6 items per page</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </main>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>

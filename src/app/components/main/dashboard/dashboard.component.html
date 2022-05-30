@@ -1,0 +1,76 @@
+<div class="sb-nav-fixed">
+  <app-navtopbar></app-navtopbar>
+  <app-navsidebar></app-navsidebar>
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_content">
+      <main>
+        <div class="col-md-8 container-fluid px-4">
+          <h1 class="mt-4">Dashboard</h1>
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-table me-1"></i>
+              DataTable Example
+            </div>
+            <div class="card-body mb-3 row">
+              <form #monitoreoForm="ngForm" (ngSubmit)="searchMonitoreo(monitoreoForm.value.sensor)">
+                <div class="mb-3">
+                  <select class="form-select" name="sitios" id="sitios" (change)="searchNodos(valSitio.value)" #valSitio
+                    ngModel>
+                    <option value="" disabled>Selecciones un sitio</option>
+                    <option *ngFor="let sitio of listaSitios" [value]="sitio.id_sitio">{{sitio.descripcion}}</option>
+                  </select>
+                </div>
+                <div class=" mb-3">
+                  <select class="form-select" name="nodo" id="nodo" (change)="searchNodoSensor(valNodos.value)"
+                    #valNodos ngModel>
+                    <option value="" disabled>Selecciones un nodo</option>
+                    <option *ngFor="let nodo of listaNodos" [value]="nodo.id_nodo">{{nodo.descripcion}}</option>
+                  </select>
+                </div>
+                <div class=" mb-3">
+                  <select class="form-select" name="sensor" id="sensor" #valNodoSensor ngModel>
+                    <option value="" disabled>Selecciones un nodo</option>
+                    <option *ngFor="let nodoSensor of listaNodoSensor" [value]="nodoSensor.id_nodo_sensor">
+                      {{nodoSensor.profundidad}}</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="date" ngbDatepicker
+                      #d="ngbDatepicker" required>
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                  <input class="btn btn-primary" type="submit" value="Entrar" [disabled]="!monitoreoForm.form.valid" />
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-chart-area me-1"></i>
+              Area Chart Example
+            </div>
+            <div class="card-body"><canvas #myAreaChart id="myAreaChart" width="100%" height="30"></canvas></div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-chart-area me-1"></i>
+              Google Maps Example
+            </div>
+            <div class="card-body">
+              <h1>{{ title }}</h1>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+        </div>
+      </main>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>
